@@ -6,3 +6,5 @@ export interface FetchProducts {
   skip: number;
   limit: number;
 }
+
+export type FetchProductById = Product;

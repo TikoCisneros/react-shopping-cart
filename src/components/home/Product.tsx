@@ -18,10 +18,12 @@ function Product({ data }: ProductProps) {
         <CardHeader className="p-0">
           <img className="rounded-t-lg h-[16rem] object-fill" src={thumbnail} alt={`img-${title}`} />
         </CardHeader>
-        <CardFooter className="justify-between px-4 pt-8 pb-5 gap-3">
+        <CardFooter className="justify-between items-end px-4 pt-8 pb-5 gap-3">
           <div className="flex flex-col gap-2">
             <CardTitle>{title}</CardTitle>
-            <CardDescription>$ {price}</CardDescription>
+            <CardDescription>
+              $<span className="text-lg font-medium">{price}</span>
+            </CardDescription>
           </div>
           <TooltipProvider>
             <Tooltip>

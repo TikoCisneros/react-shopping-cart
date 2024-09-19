@@ -1,5 +1,7 @@
+import ProductDetail from '@/components/details/ProductDetail';
+
 function Details() {
-  return <div>Details</div>;
+  return <ProductDetail />;
 }
 
 export default Details;
