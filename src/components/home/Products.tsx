@@ -6,7 +6,7 @@ import Product from './Product';
 function Products() {
   const { data, isLoading, error } = useQuery({ queryKey: ['products'], queryFn: fetchProducts });
 
-  return <div className="flex flex-row flex-wrap gap-3 justify-center">{renderBody()}</div>;
+  return <div className="flex flex-row flex-wrap gap-x-6 gap-y-3 justify-center">{renderBody()}</div>;
 
   function renderBody() {
     if (isLoading) return <Spinner />;

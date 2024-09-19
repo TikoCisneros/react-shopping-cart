@@ -9,7 +9,7 @@ function Router() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
-          <Route path="/:productId" element={<Details />} />
+          <Route path="product/:productId" element={<Details />} />
         </Route>
       </Routes>
     </BrowserRouter>
