@@ -11,12 +11,12 @@ import {
 } from '@/components/ui/sheet';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { useCartStore } from '@/store';
+import { useCartStore, cartItemsLengthSelector } from '@/store';
 
 import CartList from './CartList';
 
 function CartSheet() {
-  const cartItemsLength = useCartStore((state) => state.itemsLength);
+  const cartItemsLength = useCartStore(cartItemsLengthSelector);
 
   return (
     <Sheet>

@@ -5,7 +5,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import { Button } from '@/components/ui/button';
 import { ShoppingCart } from 'lucide-react';
 import { Product as ProductModel } from '@/models';
-import { useCartStore } from '@/store';
+import { useCartStore, addProductToCartSelector } from '@/store';
 
 type ProductProps = {
   data: ProductModel;
@@ -15,7 +15,7 @@ function Product({ data }: ProductProps) {
   const { id, title, price, thumbnail } = data;
 
   const navigate = useNavigate();
-  const addProductToCart = useCartStore((state) => state.addProductToCart);
+  const addProductToCart = useCartStore(addProductToCartSelector);
 
   return (
     <a className="w-full max-w-xs h-fit cursor-pointer" onClick={handleNavToDetail}>
