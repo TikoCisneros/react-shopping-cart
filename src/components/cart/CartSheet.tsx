@@ -11,19 +11,24 @@ import {
 } from '@/components/ui/sheet';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { useCartStore } from '@/store';
+
+import CartList from './CartList';
 
 function CartSheet() {
+  const cartItemsLength = useCartStore((state) => state.itemsLength);
+
   return (
     <Sheet>
       <SheetTrigger asChild>
         <div className="relative">
           <ShoppingBasket size={34} />
           <Badge variant="default" className="absolute top-1/3 right-1/2 rounded-full w-6 h-6 p-[0.4rem]">
-            {0}
+            {cartItemsLength}
           </Badge>
         </div>
       </SheetTrigger>
-      <SheetContent className="flex flex-col justify-between">
+      <SheetContent className="flex flex-col justify-between p-2">
         <SheetHeader>
           <SheetTitle>Your Cart</SheetTitle>
           <SheetDescription>
@@ -31,6 +36,7 @@ function CartSheet() {
             servers.
           </SheetDescription>
         </SheetHeader>
+        <CartList />
         <SheetFooter>
           <SheetClose asChild>
             <Button className="w-full" onClick={() => alert('checkout')}>
