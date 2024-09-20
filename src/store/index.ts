@@ -9,12 +9,14 @@ const STORE_NAME = 'cart-store' as const;
 const STORE_ACTIONS_NAMES = {
   addProductToCart: 'add-product-to-cart',
   removeProductFromCart: 'remove-product-from-cart',
+  updateProductQuantity: 'update-product-quantity',
 } as const;
 
 interface CartStoreState {
   items: Cart;
   addProductToCart: (product: Product) => void;
   removeProductFromCart: (productId: number) => void;
+  updateProductQuantity: (productId: number, quantity: number) => void;
 }
 
 const store: StateCreator<CartStoreState, [['zustand/devtools', never], ['zustand/immer', never]]> = (set) => ({
@@ -45,6 +47,15 @@ const store: StateCreator<CartStoreState, [['zustand/devtools', never], ['zustan
       STORE_ACTIONS_NAMES.removeProductFromCart
     );
   },
+  updateProductQuantity(productId, quantity) {
+    set(
+      (state) => {
+        state.items[productId].quantity = quantity;
+      },
+      false,
+      STORE_ACTIONS_NAMES.updateProductQuantity
+    );
+  },
 });
 
 export const useCartStore = create<CartStoreState>()(devtools(immer(store), { name: STORE_NAME }));
@@ -52,8 +63,10 @@ export const useCartStore = create<CartStoreState>()(devtools(immer(store), { na
 /** Selectors */
 export const cartItemsSelector = (state: CartStoreState) => state.items;
 export const addProductToCartSelector = (state: CartStoreState) => state.addProductToCart;
+export const removeProductFromCartSelector = (state: CartStoreState) => state.removeProductFromCart;
+export const updateProductQuantitySelector = (state: CartStoreState) => state.updateProductQuantity;
 export const cartItemsLengthSelector = (state: CartStoreState) => countObjectKeys(state.items);
-export const getTotalPriceSelector = (state: CartStoreState) =>
+export const totalPriceSelector = (state: CartStoreState) =>
   Object.keys(state.items)
     .reduce((accumulator, currentKey) => {
       const {

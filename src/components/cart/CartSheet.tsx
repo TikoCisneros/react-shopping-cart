@@ -11,13 +11,13 @@ import {
 } from '@/components/ui/sheet';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { useCartStore, cartItemsLengthSelector, getTotalPriceSelector } from '@/store';
+import { useCartStore, cartItemsLengthSelector, totalPriceSelector } from '@/store';
 
 import CartList from './CartList';
 
 function CartSheet() {
   const cartItemsLength = useCartStore(cartItemsLengthSelector);
-  const totalPrice = useCartStore(getTotalPriceSelector);
+  const totalPrice = useCartStore(totalPriceSelector);
 
   return (
     <Sheet>
