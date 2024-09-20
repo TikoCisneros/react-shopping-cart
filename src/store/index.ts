@@ -3,7 +3,7 @@ import { devtools } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 import { Cart, Product } from '@/models';
 import { countObjectKeys, hasKeyInObject } from '@/utils';
-import { ONE } from '@/constants';
+import { ONE, TW0, ZERO } from '@/constants';
 
 const STORE_NAME = 'cart-store' as const;
 const STORE_ACTIONS_NAMES = {
@@ -45,3 +45,13 @@ export const useCartStore = create<CartStoreState>()(devtools(immer(store), { na
 export const cartItemsSelector = (state: CartStoreState) => state.items;
 export const addProductToCartSelector = (state: CartStoreState) => state.addProductToCart;
 export const cartItemsLengthSelector = (state: CartStoreState) => countObjectKeys(state.items);
+export const getTotalPriceSelector = (state: CartStoreState) =>
+  Object.keys(state.items)
+    .reduce((accumulator, currentKey) => {
+      const {
+        product: { price },
+        quantity,
+      } = state.items[currentKey];
+      return accumulator + price * quantity;
+    }, Number(ZERO))
+    .toFixed(TW0);

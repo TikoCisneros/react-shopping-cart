@@ -11,12 +11,13 @@ import {
 } from '@/components/ui/sheet';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { useCartStore, cartItemsLengthSelector } from '@/store';
+import { useCartStore, cartItemsLengthSelector, getTotalPriceSelector } from '@/store';
 
 import CartList from './CartList';
 
 function CartSheet() {
   const cartItemsLength = useCartStore(cartItemsLengthSelector);
+  const totalPrice = useCartStore(getTotalPriceSelector);
 
   return (
     <Sheet>
@@ -37,6 +38,7 @@ function CartSheet() {
           </SheetDescription>
         </SheetHeader>
         <CartList />
+        <span className="self-end">Total price: ${totalPrice}</span>
         <SheetFooter>
           <SheetClose asChild>
             <Button className="w-full" onClick={() => alert('checkout')}>
