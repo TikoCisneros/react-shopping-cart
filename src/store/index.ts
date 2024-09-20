@@ -8,11 +8,13 @@ import { ONE, TW0, ZERO } from '@/constants';
 const STORE_NAME = 'cart-store' as const;
 const STORE_ACTIONS_NAMES = {
   addProductToCart: 'add-product-to-cart',
+  removeProductFromCart: 'remove-product-from-cart',
 } as const;
 
 interface CartStoreState {
   items: Cart;
   addProductToCart: (product: Product) => void;
+  removeProductFromCart: (productId: number) => void;
 }
 
 const store: StateCreator<CartStoreState, [['zustand/devtools', never], ['zustand/immer', never]]> = (set) => ({
@@ -25,16 +27,22 @@ const store: StateCreator<CartStoreState, [['zustand/devtools', never], ['zustan
           return;
         }
 
-        state.items = {
-          ...state.items,
-          [product.id]: {
-            product,
-            quantity: ONE,
-          },
+        state.items[product.id] = {
+          product,
+          quantity: ONE,
         };
       },
       false,
       STORE_ACTIONS_NAMES.addProductToCart
+    );
+  },
+  removeProductFromCart(productId) {
+    set(
+      (state) => {
+        delete state.items[productId];
+      },
+      false,
+      STORE_ACTIONS_NAMES.removeProductFromCart
     );
   },
 });
