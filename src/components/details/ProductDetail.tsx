@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { fetchProductById } from '@/api';
 import { ShoppingCart } from 'lucide-react';
 import { ONE } from '@/constants';
-import { addProductToCartWithQuantitySelector, useCartStore } from '@/store';
+import { addProductToCartSelector, useCartStore } from '@/store';
 
 function ProductDetail() {
   const { productId } = useParams();
@@ -18,7 +18,7 @@ function ProductDetail() {
     error,
   } = useQuery({ queryKey: ['product', productId], queryFn: () => fetchProductById(productId!) });
 
-  const addProductToCart = useCartStore(addProductToCartWithQuantitySelector);
+  const addProductToCart = useCartStore(addProductToCartSelector);
   const [quantity, setQuantity] = useState<number>(ONE);
 
   return <div className="flex flex-col">{renderBody()}</div>;
