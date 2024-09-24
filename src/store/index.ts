@@ -8,6 +8,7 @@ import { ONE, TW0, ZERO } from '@/constants';
 const STORE_NAME = 'cart-store' as const;
 const STORE_ACTIONS_NAMES = {
   addProductToCart: 'add-product-to-cart',
+  addProductToCartWithQuantity: 'add-product-to-cart-with-quantity',
   removeProductFromCart: 'remove-product-from-cart',
   updateProductQuantity: 'update-product-quantity',
 } as const;
@@ -15,6 +16,7 @@ const STORE_ACTIONS_NAMES = {
 interface CartStoreState {
   items: Cart;
   addProductToCart: (product: Product) => void;
+  addProductToCartWithQuantity: (product: Product, quantity: number) => void;
   removeProductFromCart: (productId: number) => void;
   updateProductQuantity: (productId: number, quantity: number) => void;
 }
@@ -36,6 +38,23 @@ const store: StateCreator<CartStoreState, [['zustand/devtools', never], ['zustan
       },
       false,
       STORE_ACTIONS_NAMES.addProductToCart
+    );
+  },
+  addProductToCartWithQuantity(product, quantity) {
+    set(
+      (state) => {
+        if (hasKeyInObject(state.items, String(product.id))) {
+          state.items[product.id].quantity += quantity;
+          return;
+        }
+
+        state.items[product.id] = {
+          product,
+          quantity,
+        };
+      },
+      false,
+      STORE_ACTIONS_NAMES.addProductToCartWithQuantity
     );
   },
   removeProductFromCart(productId) {
@@ -63,6 +82,7 @@ export const useCartStore = create<CartStoreState>()(devtools(immer(store), { na
 /** Selectors */
 export const cartItemsSelector = (state: CartStoreState) => state.items;
 export const addProductToCartSelector = (state: CartStoreState) => state.addProductToCart;
+export const addProductToCartWithQuantitySelector = (state: CartStoreState) => state.addProductToCartWithQuantity;
 export const removeProductFromCartSelector = (state: CartStoreState) => state.removeProductFromCart;
 export const updateProductQuantitySelector = (state: CartStoreState) => state.updateProductQuantity;
 export const cartItemsLengthSelector = (state: CartStoreState) => countObjectKeys(state.items);
